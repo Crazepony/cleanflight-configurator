@@ -76,6 +76,10 @@ STM32_protocol.prototype.connect = function (port, baud, hex, options, callback)
     if (self.options.no_reboot) {
         serial.connect(port, {bitrate: self.baud, parityBit: 'even', stopBits: 'one'}, function (openInfo) {
             if (openInfo) {
+                // required for Crazepony MINI
+                chrome.serial.setControlSignals( openInfo.connectionId, {dtr : true, rts : true},function(result){});
+                chrome.serial.setControlSignals( openInfo.connectionId, {dtr : true, rts : false},function(result){});
+                
                 // we are connected, disabling connect button in the UI
                 GUI.connect_lock = true;
 
@@ -110,6 +114,10 @@ STM32_protocol.prototype.connect = function (port, baud, hex, options, callback)
                                     } else {
                                         serial.connect(port, {bitrate: self.baud, parityBit: 'even', stopBits: 'one'}, function (openInfo) {
                                             if (openInfo) {
+                                                // required for Crazepony MINI
+                                                chrome.serial.setControlSignals( openInfo.connectionId, {dtr : true, rts : true},function(result){});
+                                                chrome.serial.setControlSignals( openInfo.connectionId, {dtr : true, rts : false},function(result){});
+                                                
                                                 self.initialize();
                                             } else {
                                                 GUI.connect_lock = false;

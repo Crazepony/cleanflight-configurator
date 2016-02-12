@@ -154,6 +154,11 @@ function onOpen(openInfo) {
 
         GUI.log(chrome.i18n.getMessage('serialPortOpened', [openInfo.connectionId]));
 
+        // required for Crazepony MINI
+        GUI.log('Toggling RTS...');
+        chrome.serial.setControlSignals( openInfo.connectionId, {dtr : false, rts : true},function(result){});
+        chrome.serial.setControlSignals( openInfo.connectionId, {dtr : false, rts : false},function(result){});
+        
         // save selected port with chrome.storage if the port differs
         chrome.storage.local.get('last_used_port', function (result) {
             if (result.last_used_port) {
