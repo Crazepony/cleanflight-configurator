@@ -155,7 +155,6 @@ function onOpen(openInfo) {
         GUI.log(chrome.i18n.getMessage('serialPortOpened', [openInfo.connectionId]));
 
         // required for Crazepony MINI
-        GUI.log('Toggling RTS...');
         chrome.serial.setControlSignals( openInfo.connectionId, {dtr : false, rts : true},function(result){});
         chrome.serial.setControlSignals( openInfo.connectionId, {dtr : false, rts : false},function(result){});
         
